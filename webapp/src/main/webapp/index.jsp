@@ -16,28 +16,23 @@
     <p style="text-align:center;">A Place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
 
-    <label for="Name"><b>Enter Name</b></label>
+    <label for="Name"><b>Enter your name </b></label>
     <input type="text" placeholder="Enter Full Name" name="Name" id="Name" required
       style="width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 10px;">
 
-    <label for="mobile"><b>Enter mobile</b></label>
+    <label for="mobile"><b>Enter place </b></label>
     <input type="text" placeholder="Enter mobile number" name="mobile" id="mobile" required
       style="width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 10px;">
 
-    <label for="email"><b>Enter Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" id="email" required
+    <label for="Date"><b>Date</b></label>
+    <input type="date" placeholder="Enter Travel Date " name="email" id="email" required
       style="width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 10px;">
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" id="psw" required
-      style="width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 10px;">
-
-    <label for="psw-repeat"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required
-      style="width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 10px;">
-
-    <hr style="border-color: rgba(255,255,255,0.2);">
-    <p>By creating an account you agree to our <a href="#" style="color: lightblue;">Terms & Privacy</a>.</p>
+    <label for="Blog"><b>Blog</b></label>
+    <label for="Blog"><b>Blog</b></label>
+<textarea placeholder="Write your story..." name="psw" id="psw" required
+  style="width: 100%; height: 200px; padding: 10px; margin: 10px 0; border: none; border-radius: 10px; resize: vertical;">
+</textarea>
 
     <button type="submit" class="registerbtn" style="
       width: 100%;
@@ -57,11 +52,10 @@
     margin-top: 20px;
     color: white;
   ">
-    <p>Already have an account? <a href="#" style="color: lightblue;">Sign in</a>.</p>
+
   </div>
 
-  <h1 style="text-align: center; color: white;">Thank You, Happy Learning</h1>
-  <h1 style="text-align: center; color: white;">See You Again</h1>
+
 </form>
 
 <!-- Optional background to enhance glass effect -->

@@ -60,7 +60,7 @@
 
 <!-- Optional background to enhance glass effect -->
 <body style="
-  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+  background: url('https://www.pexels.com/photo/person-holding-world-globe-facing-mountain-346885/') no-repeat center center fixed;
   background-size: cover;
   padding: 40px;
 ">

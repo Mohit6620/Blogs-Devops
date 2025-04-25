@@ -60,7 +60,7 @@
 
 <!-- Optional background to enhance glass effect -->
 <body style="
-  background: url('https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg') no-repeat center center fixed;
+  background: url('https://images.pexels.com/photos/14374972/pexels-photo-14374972.jpeg') no-repeat center center fixed;
   background-size: cover;
   padding: 40px;
 ">

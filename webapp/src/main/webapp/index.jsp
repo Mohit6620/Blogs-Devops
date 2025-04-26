@@ -108,32 +108,7 @@
 <div class="container signin" id="outputBox"></div>
 
 <script>
-  // Show stored data on page load (if any)
-  window.addEventListener('load', function() {
-    const data = localStorage.getItem('blogData');
-    if (data) {
-      const { name, place, date, blog } = JSON.parse(data);
-      displayOutput(name, place, date, blog);
-    }
-  });
-
-  document.getElementById('blogForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const name = document.getElementById('Name').value;
-    const place = document.getElementById('mobile').value;
-    const date = document.getElementById('Date').value;
-    const blog = document.getElementById('Blog').value;
-
-    const blogData = { name, place, date, blog };
-
-    // Save to localStorage
-    localStorage.setItem('blogData', JSON.stringify(blogData));
-
-    // Show on the page
-    displayOutput(name, place, date, blog);
-  });
-
+  // Utility function to display data in output box
   function displayOutput(name, place, date, blog) {
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
@@ -145,19 +120,43 @@
     `;
   }
 
-  // "View" button functionality
-  document.getElementById('viewBtn').addEventListener('click', function() {
-    const data = localStorage.getItem('blogData');
+  // Submit handler
+  document.getElementById('blogForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('Name').value.trim();
+    const place = document.getElementById('mobile').value.trim();
+    const date = document.getElementById('Date').value;
+    const blog = document.getElementById('Blog').value.trim();
+
+    const blogData = { name, place, date, blog };
+
+    // Save to localStorage
+    localStorage.setItem('blogData', JSON.stringify(blogData));
+
+    // Display it
+    displayOutput(name, place, date, blog);
+  });
+
+  // View button click handler
+  document.getElementById('viewBtn').addEventListener('click', function () {
     const outputBox = document.getElementById('outputBox');
+    const data = localStorage.getItem('blogData');
+
     if (data) {
-      const { name, place, date, blog } = JSON.parse(data);
-      displayOutput(name, place, date, blog);
+      try {
+        const { name, place, date, blog } = JSON.parse(data);
+        displayOutput(name, place, date, blog);
+        document.getElementById('blogForm').reset();
+        console.error("JSON parsing done");
+
+      } catch (err) {
+        outputBox.innerHTML = "<p style='color: red;'>Error reading blog data.</p>";
+        console.error("JSON parsing failed:", err);
+      }
     } else {
       outputBox.innerHTML = "<p>No data found in local storage.</p>";
     }
-
-    // Reset the form
-    document.getElementById('blogForm').reset();
   });
 </script>
 

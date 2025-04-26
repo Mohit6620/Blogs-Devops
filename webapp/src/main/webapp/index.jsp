@@ -49,8 +49,8 @@
       resize: vertical;
     }
 
-    .registerbtn {
-      width: 100%;
+    .registerbtn, .viewbtn {
+      width: 48%;
       padding: 12px;
       border: none;
       border-radius: 10px;
@@ -61,10 +61,19 @@
       margin-top: 10px;
     }
 
+    .viewbtn {
+      background-color: #4CAF50;
+    }
+
     .signin {
       text-align: center;
       margin-top: 20px;
       color: white;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
     }
   </style>
 </head>
@@ -88,7 +97,10 @@
     <label for="Blog">Blog</label>
     <textarea placeholder="Write your story..." name="Blog" id="Blog" required></textarea>
 
-    <button type="submit" class="registerbtn">Submit</button>
+    <div class="button-container">
+      <button type="submit" class="registerbtn">Submit</button>
+      <button type="button" class="viewbtn" id="viewBtn">View</button>
+    </div>
   </div>
 </form>
 
@@ -126,12 +138,26 @@
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
       <h3>Your Blog Submission</h3>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Place:</strong> ${place}</p>
-      <p><strong>Date:</strong> ${date}</p>
-      <p><strong>Blog:</strong> ${blog}</p>
+      <p><strong></strong> ${name}</p>
+      <p><strong></strong> ${place}</p>
+      <p><strong></strong> ${date}</p>
+      <p><strong></strong> ${blog}</p>
     `;
   }
+
+  // "View" button functionality
+  document.getElementById('viewBtn').addEventListener('click', function() {
+    const data = localStorage.getItem('blogData');
+    if (data) {
+      const { name, place, date, blog } = JSON.parse(data);
+      displayOutput(name, place, date, blog);
+    } else {
+      alert("No data found in local storage.");
+    }
+
+    // Reset the form
+    document.getElementById('blogForm').reset();
+  });
 </script>
 
 </body>

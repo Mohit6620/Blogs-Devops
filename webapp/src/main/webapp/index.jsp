@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Travel Blog Form</title>
   <style>
     body {
@@ -66,21 +66,6 @@
       margin-top: 20px;
       color: white;
     }
-
-    @media screen and (max-width: 600px) {
-      .container {
-        padding: 15px;
-        width: 90%;
-      }
-
-      textarea {
-        height: 150px;
-      }
-
-      .registerbtn {
-        font-size: 14px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -107,20 +92,37 @@
   </div>
 </form>
 
-<!-- Output Box OUTSIDE the Form -->
-<div class="container signin" id="outputBox">
-  <!-- Output will be displayed here -->
-</div>
+<!-- Output container -->
+<div class="container signin" id="outputBox"></div>
 
 <script>
+  // Show stored data on page load (if any)
+  window.addEventListener('load', function() {
+    const data = localStorage.getItem('blogData');
+    if (data) {
+      const { name, place, date, blog } = JSON.parse(data);
+      displayOutput(name, place, date, blog);
+    }
+  });
+
   document.getElementById('blogForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent form from submitting
+    e.preventDefault();
 
     const name = document.getElementById('Name').value;
     const place = document.getElementById('mobile').value;
     const date = document.getElementById('Date').value;
     const blog = document.getElementById('Blog').value;
 
+    const blogData = { name, place, date, blog };
+
+    // Save to localStorage
+    localStorage.setItem('blogData', JSON.stringify(blogData));
+
+    // Show on the page
+    displayOutput(name, place, date, blog);
+  });
+
+  function displayOutput(name, place, date, blog) {
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
       <h3>Your Blog Submission</h3>
@@ -129,7 +131,7 @@
       <p><strong>Date:</strong> ${date}</p>
       <p><strong>Blog:</strong> ${blog}</p>
     `;
-  });
+  }
 </script>
 
 </body>

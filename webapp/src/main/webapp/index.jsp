@@ -105,15 +105,16 @@
 
     <button type="submit" class="registerbtn">Submit</button>
   </div>
-
-  <div class="container signin" id="outputBox">
-    <!-- Output will be displayed here -->
-  </div>
 </form>
+
+<!-- Output Box OUTSIDE the Form -->
+<div class="container signin" id="outputBox">
+  <!-- Output will be displayed here -->
+</div>
 
 <script>
   document.getElementById('blogForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Stop form from submitting
+    e.preventDefault(); // Prevent form from submitting
 
     const name = document.getElementById('Name').value;
     const place = document.getElementById('mobile').value;
@@ -130,7 +131,6 @@
     `;
   });
 </script>
-
 
 </body>
 </html>

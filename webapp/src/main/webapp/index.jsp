@@ -81,7 +81,7 @@
 
 <form id="blogForm">
   <div class="container">
-    <h1>Blogging Website</h1>
+    <h1>Blogging Website -- CICD</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
 
@@ -112,7 +112,7 @@
   function displayOutput(name, place, date, blog) {
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
-      <h3>Your Blog Submission</h3>
+      <h3>Your Blog </h3>
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Place:</strong> ${place}</p>
       <p><strong>Date:</strong> ${date}</p>
@@ -155,7 +155,7 @@
         console.error("JSON parsing failed:", err);
       }
     } else {
-      outputBox.innerHTML = "<p>No data found in local storage.</p>";
+      outputBox.innerHTML = "<p>Write blogs first.</p>";
     }
   });
 </script>

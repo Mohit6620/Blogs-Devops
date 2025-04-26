@@ -138,21 +138,22 @@
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
       <h3>Your Blog Submission</h3>
-      <p><strong></strong> ${name}</p>
-      <p><strong></strong> ${place}</p>
-      <p><strong></strong> ${date}</p>
-      <p><strong></strong> ${blog}</p>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Place:</strong> ${place}</p>
+      <p><strong>Date:</strong> ${date}</p>
+      <p><strong>Blog:</strong> ${blog}</p>
     `;
   }
 
   // "View" button functionality
   document.getElementById('viewBtn').addEventListener('click', function() {
     const data = localStorage.getItem('blogData');
+    const outputBox = document.getElementById('outputBox');
     if (data) {
       const { name, place, date, blog } = JSON.parse(data);
       displayOutput(name, place, date, blog);
     } else {
-      alert("No data found in local storage.");
+      outputBox.innerHTML = "<p>No data found in local storage.</p>";
     }
 
     // Reset the form

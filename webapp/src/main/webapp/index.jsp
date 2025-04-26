@@ -64,9 +64,9 @@
     .signin {
       text-align: center;
       margin-top: 20px;
+      color: white;
     }
 
-    /* Responsive Styles */
     @media screen and (max-width: 600px) {
       .container {
         padding: 15px;
@@ -85,7 +85,7 @@
 </head>
 <body>
 
-<form action="action_page.php">
+<form id="blogForm">
   <div class="container">
     <h1>Blogging Website</h1>
     <p>A place where you can share your travel stories.</p>
@@ -106,10 +106,30 @@
     <button type="submit" class="registerbtn">Submit</button>
   </div>
 
-  <div class="container signin">
-    <!-- Optional footer message -->
+  <div class="container signin" id="outputBox">
+    <!-- Output will be displayed here -->
   </div>
 </form>
+
+<script>
+  document.getElementById('blogForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Stop form from submitting
+
+    const name = document.getElementById('Name').value;
+    const place = document.getElementById('mobile').value;
+    const date = document.getElementById('Date').value;
+    const blog = document.getElementById('Blog').value;
+
+    const outputBox = document.getElementById('outputBox');
+    outputBox.innerHTML = `
+      <h3>Your Blog Submission</h3>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Place:</strong> ${place}</p>
+      <p><strong>Date:</strong> ${date}</p>
+      <p><strong>Blog:</strong> ${blog}</p>
+    `;
+  });
+</script>
 
 </body>
 </html>

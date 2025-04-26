@@ -148,7 +148,7 @@
         const { name, place, date, blog } = JSON.parse(data);
         displayOutput(name, place, date, blog);
         document.getElementById('blogForm').reset();
-        console.error("JSON parsing done");
+        console.log("Json parsing button clicked");
 
       } catch (err) {
         outputBox.innerHTML = "<p style='color: red;'>Error reading blog data.</p>";

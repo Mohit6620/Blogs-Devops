@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Travel Blog Form</title>
   <style>
     body {
       background: url('https://images.pexels.com/photos/14374972/pexels-photo-14374972.jpeg') no-repeat center center fixed;
       background-size: cover;
-      padding: 20px;
       margin: 0;
+      padding: 20px;
       font-family: Arial, sans-serif;
     }
 
@@ -76,12 +76,12 @@
       justify-content: space-between;
     }
 
-    /* Success message style */
     .success-message {
       color: lightgreen;
       font-size: 18px;
       font-weight: bold;
-      animation: fadeIn 0.5s ease-in-out;
+      margin-top: 10px;
+      animation: fadeIn 0.5s;
     }
 
     @keyframes fadeIn {
@@ -90,9 +90,9 @@
     }
   </style>
 </head>
+
 <body>
 
-<!-- Blog Form -->
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website -- CICD</h1>
@@ -118,12 +118,11 @@
   </div>
 </form>
 
-<!-- Output container -->
-<div class="container signin" id="outputBox"></div>
+<div class="container signin" id="messageBox"></div> <!-- success message -->
+<div class="container signin" id="outputBox"></div> <!-- blog display -->
 
-<!-- JavaScript Part -->
 <script>
-  // Function to display output in the outputBox
+  // Utility function to display output
   function displayOutput(name, place, date, blog) {
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
@@ -135,56 +134,46 @@
     `;
   }
 
-  // Function to show temporary success message
+  // Show success message
   function showSuccessMessage(message) {
-    const outputBox = document.getElementById('outputBox');
-    outputBox.innerHTML = `<p class="success-message">${message}</p>`;
+    const messageBox = document.getElementById('messageBox');
+    messageBox.innerHTML = `<p class="success-message">${message}</p>`;
 
-    // Remove success message after 2 seconds
     setTimeout(() => {
-      outputBox.innerHTML = '';
+      messageBox.innerHTML = ''; // clear success message after 2 sec
     }, 2000);
   }
 
-  // Event: When user submits the form
+  // Handle form submit
   document.getElementById('blogForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Stop form from reloading the page
+    e.preventDefault();
 
-    // Get form field values
     const name = document.getElementById('Name').value.trim();
     const place = document.getElementById('mobile').value.trim();
     const date = document.getElementById('Date').value;
     const blog = document.getElementById('Blog').value.trim();
 
-    // Create blogData object
     const blogData = { name, place, date, blog };
 
-    // Save blogData to localStorage
     localStorage.setItem('blogData', JSON.stringify(blogData));
 
-    // Show success message
     showSuccessMessage("Blog updated successfully ✅");
 
-    // Clear form after submission
-    document.getElementById('blogForm').reset();
+    document.getElementById('blogForm').reset(); // clear form
   });
 
-  // Event: When user clicks the View button
-  document.getElementById('viewBtn').addEventListener('click', function () {
+  // Handle View Button
+  document.getElementById('viewBtn').addEventListener('click', function() {
     const outputBox = document.getElementById('outputBox');
     const data = localStorage.getItem('blogData');
 
     if (data) {
       try {
-        // Parse the data safely
         const { name, place, date, blog } = JSON.parse(data);
         displayOutput(name, place, date, blog);
-
         console.log("Json parsing button clicked");
         console.log(data);
-
       } catch (err) {
-        // If JSON is not parsable
         outputBox.innerHTML = "<p style='color: red;'>Error reading blog data.</p>";
         console.error("JSON parsing failed:", err);
       }

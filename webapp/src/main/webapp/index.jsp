@@ -149,6 +149,7 @@
         displayOutput(name, place, date, blog);
         document.getElementById('blogForm').reset();
         console.log("Json parsing button clicked");
+        console.log(data)
 
       } catch (err) {
         outputBox.innerHTML = "<p style='color: red;'>Error reading blog data.</p>";

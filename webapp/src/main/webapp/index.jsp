@@ -75,10 +75,24 @@
       display: flex;
       justify-content: space-between;
     }
+
+    /* Success message style */
+    .success-message {
+      color: lightgreen;
+      font-size: 18px;
+      font-weight: bold;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body>
 
+<!-- Blog Form -->
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website -- CICD</h1>
@@ -107,12 +121,13 @@
 <!-- Output container -->
 <div class="container signin" id="outputBox"></div>
 
+<!-- JavaScript Part -->
 <script>
-  // Utility function to display data in output box
+  // Function to display output in the outputBox
   function displayOutput(name, place, date, blog) {
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
-      <h3>Your Blog </h3>
+      <h3>Your Blog</h3>
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Place:</strong> ${place}</p>
       <p><strong>Date:</strong> ${date}</p>
@@ -120,43 +135,61 @@
     `;
   }
 
-  // Submit handler
-  document.getElementById('blogForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+  // Function to show temporary success message
+  function showSuccessMessage(message) {
+    const outputBox = document.getElementById('outputBox');
+    outputBox.innerHTML = `<p class="success-message">${message}</p>`;
 
+    // Remove success message after 2 seconds
+    setTimeout(() => {
+      outputBox.innerHTML = '';
+    }, 2000);
+  }
+
+  // Event: When user submits the form
+  document.getElementById('blogForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Stop form from reloading the page
+
+    // Get form field values
     const name = document.getElementById('Name').value.trim();
     const place = document.getElementById('mobile').value.trim();
     const date = document.getElementById('Date').value;
     const blog = document.getElementById('Blog').value.trim();
 
+    // Create blogData object
     const blogData = { name, place, date, blog };
 
-    // Save to localStorage
+    // Save blogData to localStorage
     localStorage.setItem('blogData', JSON.stringify(blogData));
 
-    // Display it
-    displayOutput(name, place, date, blog);
+    // Show success message
+    showSuccessMessage("Blog updated successfully ✅");
+
+    // Clear form after submission
+    document.getElementById('blogForm').reset();
   });
 
-  // View button click handler
+  // Event: When user clicks the View button
   document.getElementById('viewBtn').addEventListener('click', function () {
     const outputBox = document.getElementById('outputBox');
     const data = localStorage.getItem('blogData');
 
     if (data) {
       try {
+        // Parse the data safely
         const { name, place, date, blog } = JSON.parse(data);
         displayOutput(name, place, date, blog);
-        document.getElementById('blogForm').reset();
+
         console.log("Json parsing button clicked");
-        console.log(data)
+        console.log(data);
 
       } catch (err) {
+        // If JSON is not parsable
         outputBox.innerHTML = "<p style='color: red;'>Error reading blog data.</p>";
         console.error("JSON parsing failed:", err);
       }
     } else {
-      outputBox.innerHTML = "<p>Write blogs first.</p>";
+      outputBox.innerHTML = "<p>No blog data found. Please submit a blog first.</p>";
     }
   });
 </script>

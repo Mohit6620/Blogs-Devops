@@ -96,6 +96,7 @@
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website -- CICD</h1>
+    <h1>For the testing purpose only </h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
 
@@ -111,6 +112,8 @@
     <label for="Blog">Blog</label>
     <textarea placeholder="Write your story..." name="Blog" id="Blog" required></textarea>
 
+
+
     <div class="button-container">
       <button type="submit" class="registerbtn">Submit</button>
       <button type="button" class="viewbtn" id="viewBtn">View</button>
@@ -118,7 +121,7 @@
   </div>
 </form>
 
-<div class="container signin" id="messageBox"></div> <!-- success message -->
+
 <div class="container signin" id="outputBox"></div> <!-- blog display -->
 
 <script>

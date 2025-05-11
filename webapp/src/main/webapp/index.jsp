@@ -96,7 +96,7 @@
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website — CICD  fixing view button </h1>
-    <h1>fix 9</h1>
+    <h1>fix 10</h1>
     <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -128,115 +128,61 @@
 <script>
   const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun";
 
-  // ✅ Function to show a success message
-  function showSuccessMessage(message) {
-    const messageBox = document.getElementById('messageBox');
-    if (messageBox) {
-      messageBox.innerHTML = `<p class="success-message">${message}</p>`;
-      setTimeout(() => { messageBox.innerHTML = ''; }, 2000);
-    }
-  }
-
-  // ✅ Submit handler
-  document.getElementById('blogForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    const Name = document.getElementById('Name').value.trim();
-    const Place = document.getElementById('place').value.trim();
-    const Date = document.getElementById('Date').value;
-    const Blog = document.getElementById('Blog').value.trim();
-
-    const blogData = { Name, Place, Date, Blog };
-    const payload = { data: blogData };
-
-    console.log("📤 Submitting data:", payload);
+  document.getElementById('viewBtn').addEventListener('click', async function () {
+    const outputBox = document.getElementById('outputBox');
+    outputBox.innerHTML = ""; // Clear old content
 
     try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
+      const res = await fetch(API_URL);
+      const data = await res.json();
+
+      console.log("📥 Fetched data:", data);
+
+      if (!Array.isArray(data) || data.length === 0) {
+        outputBox.innerHTML = "<p>No blog data found.</p>";
+        return;
+      }
+
+      const table = document.createElement('table');
+      table.style.width = "100%";
+      table.style.borderCollapse = "collapse";
+      table.style.color = "white";
+
+      const thead = document.createElement('thead');
+      thead.innerHTML = `
+        <tr style="background-color: rgba(255,255,255,0.1);">
+          <th style="border: 1px solid white; padding: 8px;">#</th>
+          <th style="border: 1px solid white; padding: 8px;">Name</th>
+          <th style="border: 1px solid white; padding: 8px;">Place</th>
+          <th style="border: 1px solid white; padding: 8px;">Date</th>
+          <th style="border: 1px solid white; padding: 8px;">Blog</th>
+        </tr>
+      `;
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+
+      data.forEach((entry, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td style="border: 1px solid white; padding: 8px;">${index + 1}</td>
+          <td style="border: 1px solid white; padding: 8px;">${entry.Name || ''}</td>
+          <td style="border: 1px solid white; padding: 8px;">${entry.Place || ''}</td>
+          <td style="border: 1px solid white; padding: 8px;">${entry.Date || ''}</td>
+          <td style="border: 1px solid white; padding: 8px;">${entry.Blog || ''}</td>
+        `;
+        tbody.appendChild(row);
       });
 
-      const responseText = await res.text();
-      console.log("📥 POST response status:", res.status);
-      console.log("📥 POST response text:", responseText);
-
-      if (res.ok) {
-        showSuccessMessage("Saved to Google Sheet ✅");
-        document.getElementById('blogForm').reset();
-      } else {
-        alert("❌ Failed to save data.\n\n" + responseText);
-      }
+      table.appendChild(tbody);
+      outputBox.appendChild(table);
     } catch (err) {
-      console.error("❌ Error submitting data:", err);
-      alert("⚠️ Network error submitting data.");
+      console.error("❌ Fetch error:", err);
+      outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
     }
   });
-
-  // ✅ View handler
-  document.getElementById('viewBtn').addEventListener('click', async function () {
-  const outputBox = document.getElementById('outputBox');
-  outputBox.innerHTML = "";
-
-  try {
-    const res = await fetch(API_URL);
-    const data = await res.json();
-
-    console.log("📥 Fetched data:", data);
-
-    if (!Array.isArray(data) || data.length === 0) {
-      outputBox.innerHTML = "<p>No blog data found.</p>";
-      return;
-    }
-
-    const table = document.createElement('table');
-    table.style.width = "100%";
-    table.style.borderCollapse = "collapse";
-    table.style.color = "white";
-
-    const thead = document.createElement('thead');
-    thead.innerHTML = `
-      <tr style="background-color: rgba(255,255,255,0.1);">
-        <th style="border: 1px solid white; padding: 8px;">#</th>
-        <th style="border: 1px solid white; padding: 8px;">Name</th>
-        <th style="border: 1px solid white; padding: 8px;">Place</th>
-        <th style="border: 1px solid white; padding: 8px;">Date</th>
-        <th style="border: 1px solid white; padding: 8px;">Blog</th>
-      </tr>
-    `;
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    data.forEach((entry, index) => {
-      const Name = entry.Name || entry.name || '';
-      const Place = entry.Place || entry.place || '';
-      const Date = entry.Date || entry.date || '';
-      const Blog = entry.Blog || entry.blog || '';
-
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td style="border: 1px solid white; padding: 8px;">${index + 1}</td>
-        <td style="border: 1px solid white; padding: 8px;">${Name}</td>
-        <td style="border: 1px solid white; padding: 8px;">${Place}</td>
-        <td style="border: 1px solid white; padding: 8px;">${Date}</td>
-        <td style="border: 1px solid white; padding: 8px;">${Blog}</td>
-      `;
-      tbody.appendChild(row);
-    });
-
-    table.appendChild(tbody);
-    outputBox.appendChild(table);
-  } catch (err) {
-    console.error("❌ Fetch error:", err);
-    outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
-  }
-});
-
-
 </script>
+
 
 
 

@@ -96,7 +96,7 @@
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website — CICD  fixing view button </h1>
-    <h1>fix 7</h1>
+    <h1>fix 8</h1>
     <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -156,8 +156,6 @@
         method: "POST",
         headers: {
           "Content-Type": "application/json"
-          // If private SheetDB, also add Authorization header:
-          // "Authorization": "Bearer YOUR_API_KEY"
         },
         body: JSON.stringify(payload)
       });
@@ -231,6 +229,7 @@
     }
   });
 </script>
+
 
 
 

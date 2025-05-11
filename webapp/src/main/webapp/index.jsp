@@ -96,7 +96,7 @@
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website — CICD  fixing view button </h1>
-    <h1>fix 2</h1>
+    <h1>fix 3</h1>
     <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -183,33 +183,42 @@
 
   // ✅ View latest blog entry by GET request
   document.getElementById('viewBtn').addEventListener('click', async function () {
-    const outputBox = document.getElementById('outputBox');
+  const outputBox = document.getElementById('outputBox');
+  outputBox.innerHTML = ""; // Clear previous content
 
-    try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
 
-      console.log("Fetched data:", data); // Debug line
+    console.log("Fetched data:", data);
 
-      if (Array.isArray(data) && data.length > 0) {
-        const latest = data[data.length - 1];
+    if (Array.isArray(data) && data.length > 0) {
+      data.forEach(entry => {
+        const name = entry.Name || entry.name || "Unknown";
+        const place = entry.Place || entry.place || "Unknown";
+        const date = entry.Date || entry.date || "Unknown";
+        const blog = entry.Blog || entry.blog || "No content";
 
-        // ✅ Normalize field names in case of lowercase from Google Sheet
-        const name = latest.Name || latest.name || "Unknown";
-        const place = latest.Place || latest.place || "Unknown";
-        const date = latest.Date || latest.date || "Unknown";
-        const blog = latest.Blog || latest.blog || "No content";
+        const card = document.createElement('div');
+        card.className = "blog-card";  // for styling
+        card.innerHTML = `
+          <h4>${name}</h4>
+          <p><strong>Place:</strong> ${place}</p>
+          <p><strong>Date:</strong> ${date}</p>
+          <p>${blog}</p>
+        `;
 
-        // ✅ Display blog using normalized values
-        displayOutput(name, place, date, blog);
-      } else {
-        outputBox.innerHTML = "<p>No blog data found.</p>";
-      }
-    } catch (err) {
-      console.error("Fetch error:", err);
-      outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
+        outputBox.appendChild(card);
+      });
+    } else {
+      outputBox.innerHTML = "<p>No blog data found.</p>";
     }
-  });
+  } catch (err) {
+    console.error("Fetch error:", err);
+    outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
+  }
+});
+
 </script>
 
 

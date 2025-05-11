@@ -95,7 +95,7 @@
 
 <form id="blogForm">
   <div class="container">
-    <h1>Blogging Website — CICD testing gsheet</h1>
+    <h1>Blogging Website — CICD  fixing view button </h1>
     <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -177,22 +177,26 @@
   });
 
   document.getElementById('viewBtn').addEventListener('click', async function () {
-    const outputBox = document.getElementById('outputBox');
-    try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
+  const outputBox = document.getElementById('outputBox');
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
 
-      if (data.length > 0) {
-        const latest = data[data.length - 1];
-        displayOutput(latest.Name, latest.Place, latest.Date, latest.Blog);
-      } else {
-        outputBox.innerHTML = "<p>No blog data found.</p>";
-      }
-    } catch (err) {
-      console.error(err);
-      outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
+    console.log("Fetched data:", data); // <--- ADD THIS LINE
+
+    if (Array.isArray(data) && data.length > 0) {
+      const latest = data[data.length - 1];
+      displayOutput(latest.Name, latest.Place, latest.Date, latest.Blog);
+    } else {
+      outputBox.innerHTML = "<p>No blog data found.</p>";
     }
-  });
+  } catch (err) {
+    console.error("Fetch error:", err);
+    console.log("getting errror in fetching data");
+    outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
+  }
+});
+
 </script>
 
 </body>

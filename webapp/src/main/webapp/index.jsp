@@ -129,17 +129,8 @@
 <div class="container signin" id="outputBox"></div>
 
 <script>
+  const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun"; // Replace with your SheetDB URL
 
-window.onload = function() {
-  const data = localStorage.getItem('blogData');
-  if (data) {
-    const parsed = JSON.parse(data);
-    displayOutput(parsed.name, parsed.place, parsed.date, parsed.blog);
-  }
-};
-
-
-  // Utility function to display output
   function displayOutput(name, place, date, blog) {
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
@@ -151,19 +142,15 @@ window.onload = function() {
     `;
   }
 
-  // Show success message
   function showSuccessMessage(message) {
     const messageBox = document.getElementById('messageBox');
     if (messageBox) {
       messageBox.innerHTML = `<p class="success-message">${message}</p>`;
-      setTimeout(() => {
-        messageBox.innerHTML = '';
-      }, 2000);
+      setTimeout(() => { messageBox.innerHTML = ''; }, 2000);
     }
   }
 
-  // Handle form submit
-  document.getElementById('blogForm').addEventListener('submit', function(e) {
+  document.getElementById('blogForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const name = document.getElementById('Name').value.trim();
@@ -174,33 +161,43 @@ window.onload = function() {
     const blogData = { name, place, date, blog };
 
     try {
-      localStorage.setItem('blogData', JSON.stringify(blogData));
-      showSuccessMessage("Blog saved successfully ✅");
-      document.getElementById('blogForm').reset();
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: blogData })
+      });
+
+      if (res.ok) {
+        showSuccessMessage("Saved to Google Sheet ✅");
+        document.getElementById('blogForm').reset();
+      } else {
+        alert("Failed to save data.");
+      }
     } catch (err) {
-      alert("Failed to save blog to localStorage.");
-      console.error("localStorage error:", err);
+      console.error(err);
+      alert("Error submitting data.");
     }
   });
 
-  // Handle View Button
-  document.getElementById('viewBtn').addEventListener('click', function() {
+  document.getElementById('viewBtn').addEventListener('click', async function () {
     const outputBox = document.getElementById('outputBox');
-    const data = localStorage.getItem('blogData');
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
 
-    if (data) {
-      try {
-        const parsed = JSON.parse(data);
-        displayOutput(parsed.name, parsed.place, parsed.date, parsed.blog);
-      } catch (err) {
-        outputBox.innerHTML = "<p style='color: red;'>Error reading blog data.</p>";
-        console.error("JSON parsing failed:", err);
+      if (data.length > 0) {
+        const latest = data[data.length - 1]; // Show most recent blog
+        displayOutput(latest.name, latest.place, latest.date, latest.blog);
+      } else {
+        outputBox.innerHTML = "<p>No blog data found.</p>";
       }
-    } else {
-      outputBox.innerHTML = "<p>No blog data found. Please submit a blog first.</p>";
+    } catch (err) {
+      console.error(err);
+      outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
     }
   });
 </script>
+
 
 
 </body>

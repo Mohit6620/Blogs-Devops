@@ -96,7 +96,7 @@
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website — CICD  fixing view button </h1>
-    <h1>fix 5</h1>
+    <h1>fix 6</h1>
     <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -236,6 +236,7 @@
       outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
     }
   });
+
 </script>
 
 

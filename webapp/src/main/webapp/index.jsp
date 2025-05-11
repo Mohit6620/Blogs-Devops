@@ -117,6 +117,9 @@
       <button type="button" class="viewbtn" id="viewBtn">View</button>
     </div>
   </div>
+
+  <div id="messageBox" class="signin"></div>
+
 </form>
 
 <!-- Added message box for success message -->
@@ -126,16 +129,17 @@
 <div class="container signin" id="outputBox"></div>
 
 <script>
-  // Display success message
-  function showSuccessMessage(message) {
-    const messageBox = document.getElementById('messageBox');
-    messageBox.innerHTML = `<p class="success-message">${message}</p>`;
-    setTimeout(() => {
-      messageBox.innerHTML = '';
-    }, 2000);
-  }
 
-  // Display the blog
+window.onload = function() {
+  const data = localStorage.getItem('blogData');
+  if (data) {
+    const parsed = JSON.parse(data);
+    displayOutput(parsed.name, parsed.place, parsed.date, parsed.blog);
+  }
+};
+
+
+  // Utility function to display output
   function displayOutput(name, place, date, blog) {
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
@@ -145,6 +149,17 @@
       <p><strong>Date:</strong> ${date}</p>
       <p><strong>Blog:</strong> ${blog}</p>
     `;
+  }
+
+  // Show success message
+  function showSuccessMessage(message) {
+    const messageBox = document.getElementById('messageBox');
+    if (messageBox) {
+      messageBox.innerHTML = `<p class="success-message">${message}</p>`;
+      setTimeout(() => {
+        messageBox.innerHTML = '';
+      }, 2000);
+    }
   }
 
   // Handle form submit
@@ -157,10 +172,15 @@
     const blog = document.getElementById('Blog').value.trim();
 
     const blogData = { name, place, date, blog };
-    localStorage.setItem('blogData', JSON.stringify(blogData));
 
-    showSuccessMessage("Blog submitted successfully ✅");
-    document.getElementById('blogForm').reset();
+    try {
+      localStorage.setItem('blogData', JSON.stringify(blogData));
+      showSuccessMessage("Blog saved successfully ✅");
+      document.getElementById('blogForm').reset();
+    } catch (err) {
+      alert("Failed to save blog to localStorage.");
+      console.error("localStorage error:", err);
+    }
   });
 
   // Handle View Button
@@ -168,20 +188,20 @@
     const outputBox = document.getElementById('outputBox');
     const data = localStorage.getItem('blogData');
 
-    if (!data) {
+    if (data) {
+      try {
+        const parsed = JSON.parse(data);
+        displayOutput(parsed.name, parsed.place, parsed.date, parsed.blog);
+      } catch (err) {
+        outputBox.innerHTML = "<p style='color: red;'>Error reading blog data.</p>";
+        console.error("JSON parsing failed:", err);
+      }
+    } else {
       outputBox.innerHTML = "<p>No blog data found. Please submit a blog first.</p>";
-      return;
-    }
-
-    try {
-      const { name, place, date, blog } = JSON.parse(data);
-      displayOutput(name, place, date, blog);
-    } catch (err) {
-      outputBox.innerHTML = "<p style='color: red;'>Error reading blog data.</p>";
-      console.error("JSON parsing failed:", err);
     }
   });
 </script>
+
 
 </body>
 </html>

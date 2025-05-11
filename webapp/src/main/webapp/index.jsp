@@ -96,6 +96,7 @@
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website — CICD  fixing view button </h1>
+    <h1>fix 1</h1>
     <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -125,19 +126,21 @@
 <div class="container signin" id="outputBox"></div>
 
 <script>
-  const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun"; // Replace if needed
+  const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun"; // Replace with your actual endpoint if needed
 
-  function displayOutput(Name, Place, Date, Blog) {
+  // ✅ Function to display the blog data on screen
+  function displayOutput(name, place, date, blog) {
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
       <h3>Your Blog</h3>
-      <p><strong>Name:</strong> ${Name}</p>
-      <p><strong>Place:</strong> ${Place}</p>
-      <p><strong>Date:</strong> ${Date}</p>
-      <p><strong>Blog:</strong> ${Blog}</p>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Place:</strong> ${place}</p>
+      <p><strong>Date:</strong> ${date}</p>
+      <p><strong>Blog:</strong> ${blog}</p>
     `;
   }
 
+  // ✅ Function to show a success message
   function showSuccessMessage(message) {
     const messageBox = document.getElementById('messageBox');
     if (messageBox) {
@@ -146,6 +149,7 @@
     }
   }
 
+  // ✅ Submit form and POST data to API_URL (Google Sheet endpoint)
   document.getElementById('blogForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
@@ -176,28 +180,37 @@
     }
   });
 
+  // ✅ View latest blog entry by GET request
   document.getElementById('viewBtn').addEventListener('click', async function () {
-  const outputBox = document.getElementById('outputBox');
-  try {
-    const res = await fetch(API_URL);
-    const data = await res.json();
+    const outputBox = document.getElementById('outputBox');
 
-    console.log("Fetched data:", data); // <--- ADD THIS LINE
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
 
-    if (Array.isArray(data) && data.length > 0) {
-      const latest = data[data.length - 1];
-      displayOutput(latest.Name, latest.Place, latest.Date, latest.Blog);
-    } else {
-      outputBox.innerHTML = "<p>No blog data found.</p>";
+      console.log("Fetched data:", data); // Debug line
+
+      if (Array.isArray(data) && data.length > 0) {
+        const latest = data[data.length - 1];
+
+        // ✅ Normalize field names in case of lowercase from Google Sheet
+        const name = latest.Name || latest.name || "Unknown";
+        const place = latest.Place || latest.place || "Unknown";
+        const date = latest.Date || latest.date || "Unknown";
+        const blog = latest.Blog || latest.blog || "No content";
+
+        // ✅ Display blog using normalized values
+        displayOutput(name, place, date, blog);
+      } else {
+        outputBox.innerHTML = "<p>No blog data found.</p>";
+      }
+    } catch (err) {
+      console.error("Fetch error:", err);
+      outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
     }
-  } catch (err) {
-    console.error("Fetch error:", err);
-    console.log("getting errror in fetching data");
-    outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
-  }
-});
-
+  });
 </script>
+
 
 </body>
 </html>

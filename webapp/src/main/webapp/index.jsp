@@ -96,7 +96,7 @@
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website — CICD  fixing view button </h1>
-    <h1>fix 6</h1>
+    <h1>fix 7</h1>
     <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -126,22 +126,9 @@
 <div class="container signin" id="outputBox"></div>
 
 <script>
-  const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun"; // Replace with your actual endpoint if needed
+  const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun"; // ✅ Replace with your actual SheetDB endpoint
 
-  // ✅ Function to display the blog data on screen
-  function displayOutput(name, place, date, blog) {
-  const outputBox = document.getElementById('outputBox');
-  outputBox.innerHTML = `
-    <h3>Your Blog</h3>
-    <p><strong>Name:</strong> ${name}</p>
-    <p><strong>Place:</strong> ${place}</p>
-    <p><strong>Date:</strong> ${date}</p>
-    <p><strong>Blog:</strong> ${blog}</p>
-  `;
-}
-
-
-  // ✅ Function to show a success message
+  // ✅ Function to display a success message
   function showSuccessMessage(message) {
     const messageBox = document.getElementById('messageBox');
     if (messageBox) {
@@ -150,8 +137,8 @@
     }
   }
 
-  // ✅ Submit form and POST data to API_URL (Google Sheet endpoint)
-  document.getElementById('blogForm').addEventListener('submit', async function(e) {
+  // ✅ Function to handle form submit
+  document.getElementById('blogForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const Name = document.getElementById('Name').value.trim();
@@ -160,31 +147,39 @@
     const Blog = document.getElementById('Blog').value.trim();
 
     const blogData = { Name, Place, Date, Blog };
+    const payload = { data: blogData };
+
+    console.log("📤 Submitting data:", payload);
 
     try {
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: blogData })
+        headers: {
+          "Content-Type": "application/json"
+          // If private SheetDB, also add Authorization header:
+          // "Authorization": "Bearer YOUR_API_KEY"
+        },
+        body: JSON.stringify(payload)
       });
+
+      console.log("📥 POST response status:", res.status);
+      const responseText = await res.text();
+      console.log("📥 POST response text:", responseText);
 
       if (res.ok) {
         showSuccessMessage("Saved to Google Sheet ✅");
         document.getElementById('blogForm').reset();
       } else {
-        const errorText = await res.text();
-        alert("Failed to save data. " + errorText);
+        alert("❌ Failed to save data.\n\n" + responseText);
       }
     } catch (err) {
-      console.error(err);
-      alert("Error submitting data.");
+      console.error("❌ Error submitting data:", err);
+      alert("⚠️ Network error submitting data.");
     }
   });
 
-  // ✅ View latest blog entry by GET request
- // ✅ View blog entries in a dynamic table format with row number as primary key
-
- document.getElementById('viewBtn').addEventListener('click', async function () {
+  // ✅ Function to handle View button click and fetch all blogs
+  document.getElementById('viewBtn').addEventListener('click', async function () {
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = ""; // Clear previous content
 
@@ -192,13 +187,14 @@
       const res = await fetch(API_URL);
       const data = await res.json();
 
+      console.log("📥 Fetched data:", data);
+
       if (Array.isArray(data) && data.length > 0) {
         const table = document.createElement('table');
         table.style.width = "100%";
         table.style.borderCollapse = "collapse";
         table.style.color = "white";
 
-        // Create header
         const thead = document.createElement('thead');
         thead.innerHTML = `
           <tr style="background-color: rgba(255,255,255,0.1);">
@@ -211,17 +207,15 @@
         `;
         table.appendChild(thead);
 
-        // Create table body
         const tbody = document.createElement('tbody');
-
         data.forEach((entry, index) => {
           const row = document.createElement('tr');
           row.innerHTML = `
             <td style="border: 1px solid white; padding: 8px;">${index + 1}</td>
-            <td style="border: 1px solid white; padding: 8px;">${entry.name || 'Unknown'}</td>
-            <td style="border: 1px solid white; padding: 8px;">${entry.place || 'Unknown'}</td>
-            <td style="border: 1px solid white; padding: 8px;">${entry.date || 'Unknown'}</td>
-            <td style="border: 1px solid white; padding: 8px;">${entry.blog || 'No content'}</td>
+            <td style="border: 1px solid white; padding: 8px;">${entry.Name || 'Unknown'}</td>
+            <td style="border: 1px solid white; padding: 8px;">${entry.Place || 'Unknown'}</td>
+            <td style="border: 1px solid white; padding: 8px;">${entry.Date || 'Unknown'}</td>
+            <td style="border: 1px solid white; padding: 8px;">${entry.Blog || 'No content'}</td>
           `;
           tbody.appendChild(row);
         });
@@ -232,12 +226,12 @@
         outputBox.innerHTML = "<p>No blog data found.</p>";
       }
     } catch (err) {
-      console.error("Fetch error:", err);
+      console.error("❌ Fetch error:", err);
       outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
     }
   });
-
 </script>
+
 
 
 </body>

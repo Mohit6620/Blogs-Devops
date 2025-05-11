@@ -96,7 +96,7 @@
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website — CICD  fixing view button </h1>
-    <h1>fix 3</h1>
+    <h1>fix 4</h1>
     <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -182,7 +182,8 @@
   });
 
   // ✅ View latest blog entry by GET request
-  document.getElementById('viewBtn').addEventListener('click', async function () {
+ // ✅ View blog entries in a dynamic table format with row number as primary key
+document.getElementById('viewBtn').addEventListener('click', async function () {
   const outputBox = document.getElementById('outputBox');
   outputBox.innerHTML = ""; // Clear previous content
 
@@ -190,26 +191,42 @@
     const res = await fetch(API_URL);
     const data = await res.json();
 
-    console.log("Fetched data:", data);
-
     if (Array.isArray(data) && data.length > 0) {
-      data.forEach(entry => {
-        const name = entry.Name || entry.name || "Unknown";
-        const place = entry.Place || entry.place || "Unknown";
-        const date = entry.Date || entry.date || "Unknown";
-        const blog = entry.Blog || entry.blog || "No content";
+      const table = document.createElement('table');
+      table.style.width = "100%";
+      table.style.borderCollapse = "collapse";
+      table.style.color = "white";
 
-        const card = document.createElement('div');
-        card.className = "blog-card";  // for styling
-        card.innerHTML = `
-          <h4>${name}</h4>
-          <p><strong>Place:</strong> ${place}</p>
-          <p><strong>Date:</strong> ${date}</p>
-          <p>${blog}</p>
+      // Create header
+      const thead = document.createElement('thead');
+      thead.innerHTML = `
+        <tr style="background-color: rgba(255,255,255,0.1);">
+          <th style="border: 1px solid white; padding: 8px;">#</th>
+          <th style="border: 1px solid white; padding: 8px;">Name</th>
+          <th style="border: 1px solid white; padding: 8px;">Place</th>
+          <th style="border: 1px solid white; padding: 8px;">Date</th>
+          <th style="border: 1px solid white; padding: 8px;">Blog</th>
+        </tr>
+      `;
+      table.appendChild(thead);
+
+      // Create table body
+      const tbody = document.createElement('tbody');
+
+      data.forEach((entry, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td style="border: 1px solid white; padding: 8px;">${index + 1}</td>
+          <td style="border: 1px solid white; padding: 8px;">${entry.Name || 'Unknown'}</td>
+          <td style="border: 1px solid white; padding: 8px;">${entry.Place || 'Unknown'}</td>
+          <td style="border: 1px solid white; padding: 8px;">${entry.Date || 'Unknown'}</td>
+          <td style="border: 1px solid white; padding: 8px;">${entry.Blog || 'No content'}</td>
         `;
-
-        outputBox.appendChild(card);
+        tbody.appendChild(row);
       });
+
+      table.appendChild(tbody);
+      outputBox.appendChild(table);
     } else {
       outputBox.innerHTML = "<p>No blog data found.</p>";
     }

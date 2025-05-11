@@ -178,64 +178,64 @@
 
   // ✅ View handler
   document.getElementById('viewBtn').addEventListener('click', async function () {
-    const outputBox = document.getElementById('outputBox');
-    outputBox.innerHTML = "";
+  const outputBox = document.getElementById('outputBox');
+  outputBox.innerHTML = "";
 
-    try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
 
-      console.log("📥 Fetched data:", data);
-      if (!Array.isArray(data) || data.length === 0) {
-        outputBox.innerHTML = "<p>No blog data found.</p>";
-        return;
-      }
+    console.log("📥 Fetched data:", data);
 
-      // Log one entry to confirm structure
-      console.log("📥 Sample entry structure:", data[0]);
-
-      const table = document.createElement('table');
-      table.style.width = "100%";
-      table.style.borderCollapse = "collapse";
-      table.style.color = "white";
-
-      const thead = document.createElement('thead');
-      thead.innerHTML = `
-        <tr style="background-color: rgba(255,255,255,0.1);">
-          <th style="border: 1px solid white; padding: 8px;">#</th>
-          <th style="border: 1px solid white; padding: 8px;">Name</th>
-          <th style="border: 1px solid white; padding: 8px;">Place</th>
-          <th style="border: 1px solid white; padding: 8px;">Date</th>
-          <th style="border: 1px solid white; padding: 8px;">Blog</th>
-        </tr>
-      `;
-      table.appendChild(thead);
-
-      const tbody = document.createElement('tbody');
-      data.forEach((entry, index) => {
-        const Name = entry.Name || entry.name || 'Unknown';
-        const Place = entry.Place || entry.place || 'Unknown';
-        const Date = entry.Date || entry.date || 'Unknown';
-        const Blog = entry.Blog || entry.blog || 'No content';
-
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td style="border: 1px solid white; padding: 8px;">${index + 1}</td>
-          <td style="border: 1px solid white; padding: 8px;">${Name}</td>
-          <td style="border: 1px solid white; padding: 8px;">${Place}</td>
-          <td style="border: 1px solid white; padding: 8px;">${Date}</td>
-          <td style="border: 1px solid white; padding: 8px;">${Blog}</td>
-        `;
-        tbody.appendChild(row);
-      });
-
-      table.appendChild(tbody);
-      outputBox.appendChild(table);
-    } catch (err) {
-      console.error("❌ Fetch error:", err);
-      outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
+    if (!Array.isArray(data) || data.length === 0) {
+      outputBox.innerHTML = "<p>No blog data found.</p>";
+      return;
     }
-  });
+
+    const table = document.createElement('table');
+    table.style.width = "100%";
+    table.style.borderCollapse = "collapse";
+    table.style.color = "white";
+
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+      <tr style="background-color: rgba(255,255,255,0.1);">
+        <th style="border: 1px solid white; padding: 8px;">#</th>
+        <th style="border: 1px solid white; padding: 8px;">Name</th>
+        <th style="border: 1px solid white; padding: 8px;">Place</th>
+        <th style="border: 1px solid white; padding: 8px;">Date</th>
+        <th style="border: 1px solid white; padding: 8px;">Blog</th>
+      </tr>
+    `;
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    data.forEach((entry, index) => {
+      const Name = entry.Name || entry.name || '';
+      const Place = entry.Place || entry.place || '';
+      const Date = entry.Date || entry.date || '';
+      const Blog = entry.Blog || entry.blog || '';
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td style="border: 1px solid white; padding: 8px;">${index + 1}</td>
+        <td style="border: 1px solid white; padding: 8px;">${Name}</td>
+        <td style="border: 1px solid white; padding: 8px;">${Place}</td>
+        <td style="border: 1px solid white; padding: 8px;">${Date}</td>
+        <td style="border: 1px solid white; padding: 8px;">${Blog}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+    outputBox.appendChild(table);
+  } catch (err) {
+    console.error("❌ Fetch error:", err);
+    outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
+  }
+});
+
+
 </script>
 
 

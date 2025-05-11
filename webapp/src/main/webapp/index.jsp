@@ -96,7 +96,7 @@
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website — CICD  fixing view button </h1>
-    <h1>fix 4</h1>
+    <h1>fix 5</h1>
     <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -183,59 +183,59 @@
 
   // ✅ View latest blog entry by GET request
  // ✅ View blog entries in a dynamic table format with row number as primary key
-document.getElementById('viewBtn').addEventListener('click', async function () {
-  const outputBox = document.getElementById('outputBox');
-  outputBox.innerHTML = ""; // Clear previous content
 
-  try {
-    const res = await fetch(API_URL);
-    const data = await res.json();
+ document.getElementById('viewBtn').addEventListener('click', async function () {
+    const outputBox = document.getElementById('outputBox');
+    outputBox.innerHTML = ""; // Clear previous content
 
-    if (Array.isArray(data) && data.length > 0) {
-      const table = document.createElement('table');
-      table.style.width = "100%";
-      table.style.borderCollapse = "collapse";
-      table.style.color = "white";
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
 
-      // Create header
-      const thead = document.createElement('thead');
-      thead.innerHTML = `
-        <tr style="background-color: rgba(255,255,255,0.1);">
-          <th style="border: 1px solid white; padding: 8px;">#</th>
-          <th style="border: 1px solid white; padding: 8px;">Name</th>
-          <th style="border: 1px solid white; padding: 8px;">Place</th>
-          <th style="border: 1px solid white; padding: 8px;">Date</th>
-          <th style="border: 1px solid white; padding: 8px;">Blog</th>
-        </tr>
-      `;
-      table.appendChild(thead);
+      if (Array.isArray(data) && data.length > 0) {
+        const table = document.createElement('table');
+        table.style.width = "100%";
+        table.style.borderCollapse = "collapse";
+        table.style.color = "white";
 
-      // Create table body
-      const tbody = document.createElement('tbody');
-
-      data.forEach((entry, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td style="border: 1px solid white; padding: 8px;">${index + 1}</td>
-          <td style="border: 1px solid white; padding: 8px;">${entry.Name || 'Unknown'}</td>
-          <td style="border: 1px solid white; padding: 8px;">${entry.Place || 'Unknown'}</td>
-          <td style="border: 1px solid white; padding: 8px;">${entry.Date || 'Unknown'}</td>
-          <td style="border: 1px solid white; padding: 8px;">${entry.Blog || 'No content'}</td>
+        // Create header
+        const thead = document.createElement('thead');
+        thead.innerHTML = `
+          <tr style="background-color: rgba(255,255,255,0.1);">
+            <th style="border: 1px solid white; padding: 8px;">#</th>
+            <th style="border: 1px solid white; padding: 8px;">Name</th>
+            <th style="border: 1px solid white; padding: 8px;">Place</th>
+            <th style="border: 1px solid white; padding: 8px;">Date</th>
+            <th style="border: 1px solid white; padding: 8px;">Blog</th>
+          </tr>
         `;
-        tbody.appendChild(row);
-      });
+        table.appendChild(thead);
 
-      table.appendChild(tbody);
-      outputBox.appendChild(table);
-    } else {
-      outputBox.innerHTML = "<p>No blog data found.</p>";
+        // Create table body
+        const tbody = document.createElement('tbody');
+
+        data.forEach((entry, index) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td style="border: 1px solid white; padding: 8px;">${index + 1}</td>
+            <td style="border: 1px solid white; padding: 8px;">${entry.name || 'Unknown'}</td>
+            <td style="border: 1px solid white; padding: 8px;">${entry.place || 'Unknown'}</td>
+            <td style="border: 1px solid white; padding: 8px;">${entry.date || 'Unknown'}</td>
+            <td style="border: 1px solid white; padding: 8px;">${entry.blog || 'No content'}</td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        table.appendChild(tbody);
+        outputBox.appendChild(table);
+      } else {
+        outputBox.innerHTML = "<p>No blog data found.</p>";
+      }
+    } catch (err) {
+      console.error("Fetch error:", err);
+      outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
     }
-  } catch (err) {
-    console.error("Fetch error:", err);
-    outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
-  }
-});
-
+  });
 </script>
 
 

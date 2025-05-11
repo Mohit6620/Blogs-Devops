@@ -95,7 +95,7 @@
 
 <form id="blogForm">
   <div class="container">
-    <h1>Blogging Website — CICD</h1>
+    <h1>Blogging Website — CICD testing gsheet</h1>
     <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -119,26 +119,22 @@
   </div>
 
   <div id="messageBox" class="signin"></div>
-
 </form>
-
-<!-- Added message box for success message -->
-<div id="messageBox" class="container signin"></div>
 
 <!-- Output box for blog content -->
 <div class="container signin" id="outputBox"></div>
 
 <script>
-  const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun"; // Replace with your SheetDB URL
+  const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun"; // Replace if needed
 
-  function displayOutput(name, place, date, blog) {
+  function displayOutput(Name, Place, Date, Blog) {
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
       <h3>Your Blog</h3>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Place:</strong> ${place}</p>
-      <p><strong>Date:</strong> ${date}</p>
-      <p><strong>Blog:</strong> ${blog}</p>
+      <p><strong>Name:</strong> ${Name}</p>
+      <p><strong>Place:</strong> ${Place}</p>
+      <p><strong>Date:</strong> ${Date}</p>
+      <p><strong>Blog:</strong> ${Blog}</p>
     `;
   }
 
@@ -153,12 +149,12 @@
   document.getElementById('blogForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const name = document.getElementById('Name').value.trim();
-    const place = document.getElementById('place').value.trim();
-    const date = document.getElementById('Date').value;
-    const blog = document.getElementById('Blog').value.trim();
+    const Name = document.getElementById('Name').value.trim();
+    const Place = document.getElementById('place').value.trim();
+    const Date = document.getElementById('Date').value;
+    const Blog = document.getElementById('Blog').value.trim();
 
-    const blogData = { name, place, date, blog };
+    const blogData = { Name, Place, Date, Blog };
 
     try {
       const res = await fetch(API_URL, {
@@ -171,7 +167,8 @@
         showSuccessMessage("Saved to Google Sheet ✅");
         document.getElementById('blogForm').reset();
       } else {
-        alert("Failed to save data.");
+        const errorText = await res.text();
+        alert("Failed to save data. " + errorText);
       }
     } catch (err) {
       console.error(err);
@@ -186,8 +183,8 @@
       const data = await res.json();
 
       if (data.length > 0) {
-        const latest = data[data.length - 1]; // Show most recent blog
-        displayOutput(latest.name, latest.place, latest.date, latest.blog);
+        const latest = data[data.length - 1];
+        displayOutput(latest.Name, latest.Place, latest.Date, latest.Blog);
       } else {
         outputBox.innerHTML = "<p>No blog data found.</p>";
       }
@@ -197,8 +194,6 @@
     }
   });
 </script>
-
-
 
 </body>
 </html>

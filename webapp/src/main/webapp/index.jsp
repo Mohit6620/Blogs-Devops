@@ -96,7 +96,7 @@
 <form id="blogForm">
   <div class="container">
     <h1>Blogging Website — CICD  fixing view button </h1>
-    <h1>fix 1</h1>
+    <h1>fix 2</h1>
     <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -130,15 +130,16 @@
 
   // ✅ Function to display the blog data on screen
   function displayOutput(name, place, date, blog) {
-    const outputBox = document.getElementById('outputBox');
-    outputBox.innerHTML = `
-      <h3>Your Blog</h3>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Place:</strong> ${place}</p>
-      <p><strong>Date:</strong> ${date}</p>
-      <p><strong>Blog:</strong> ${blog}</p>
-    `;
-  }
+  const outputBox = document.getElementById('outputBox');
+  outputBox.innerHTML = `
+    <h3>Your Blog</h3>
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Place:</strong> ${place}</p>
+    <p><strong>Date:</strong> ${date}</p>
+    <p><strong>Blog:</strong> ${blog}</p>
+  `;
+}
+
 
   // ✅ Function to show a success message
   function showSuccessMessage(message) {

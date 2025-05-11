@@ -30,4 +30,37 @@ public class TestGreeter {
 
     assertThat(greeter.greet(someone).length(), is(greaterThan(someone.length())));
   }
+
+  // Test case for login functionality
+  @Test
+  public void loginShouldReturnSuccessForValidCredentials() {
+    String userId = "user123";
+    String password = "password123";
+
+    assertThat(greeter.login(userId, password), is("Login successful!"));
+  }
+
+  @Test
+  public void loginShouldReturnErrorForInvalidUserId() {
+    String userId = "invalidUser";
+    String password = "password123";
+
+    assertThat(greeter.login(userId, password), is("Invalid credentials!"));
+  }
+
+  @Test
+  public void loginShouldReturnErrorForInvalidPassword() {
+    String userId = "user123";
+    String password = "wrongPassword";
+
+    assertThat(greeter.login(userId, password), is("Invalid credentials!"));
+  }
+
+  @Test
+  public void loginShouldReturnErrorForBothInvalidCredentials() {
+    String userId = "invalidUser";
+    String password = "wrongPassword";
+
+    assertThat(greeter.login(userId, password), is("Invalid credentials!"));
+  }
 }

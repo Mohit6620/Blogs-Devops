@@ -95,24 +95,22 @@
 
 <form id="blogForm">
   <div class="container">
-    <h1>Blogging Website -- CICD</h1>
-    <h1>For the testing purpose only </h1>
+    <h1>Blogging Website — CICD</h1>
+    <h1>For testing purpose only</h1>
     <p>A place where you can share your travel stories.</p>
     <hr style="border-color: rgba(255,255,255,0.2);">
 
     <label for="Name">Enter your name</label>
     <input type="text" placeholder="Enter Full Name" name="Name" id="Name" required>
 
-    <label for="mobile">Enter place</label>
-    <input type="text" placeholder="Enter Place" name="mobile" id="mobile" required>
+    <label for="place">Enter place</label>
+    <input type="text" placeholder="Enter Place" name="place" id="place" required>
 
     <label for="Date">Date</label>
     <input type="date" name="Date" id="Date" required>
 
     <label for="Blog">Blog</label>
     <textarea placeholder="Write your story..." name="Blog" id="Blog" required></textarea>
-
-
 
     <div class="button-container">
       <button type="submit" class="registerbtn">Submit</button>
@@ -121,11 +119,23 @@
   </div>
 </form>
 
+<!-- Added message box for success message -->
+<div id="messageBox" class="container signin"></div>
 
-<div class="container signin" id="outputBox"></div> <!-- blog display -->
+<!-- Output box for blog content -->
+<div class="container signin" id="outputBox"></div>
 
 <script>
-  // Utility function to display output
+  // Display success message
+  function showSuccessMessage(message) {
+    const messageBox = document.getElementById('messageBox');
+    messageBox.innerHTML = `<p class="success-message">${message}</p>`;
+    setTimeout(() => {
+      messageBox.innerHTML = '';
+    }, 2000);
+  }
+
+  // Display the blog
   function displayOutput(name, place, date, blog) {
     const outputBox = document.getElementById('outputBox');
     outputBox.innerHTML = `
@@ -137,32 +147,20 @@
     `;
   }
 
-  // Show success message
-  function showSuccessMessage(message) {
-    const messageBox = document.getElementById('messageBox');
-    messageBox.innerHTML = `<p class="success-message">${message}</p>`;
-
-    setTimeout(() => {
-      messageBox.innerHTML = ''; // clear success message after 2 sec
-    }, 2000);
-  }
-
   // Handle form submit
   document.getElementById('blogForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     const name = document.getElementById('Name').value.trim();
-    const place = document.getElementById('mobile').value.trim();
+    const place = document.getElementById('place').value.trim();
     const date = document.getElementById('Date').value;
     const blog = document.getElementById('Blog').value.trim();
 
     const blogData = { name, place, date, blog };
-
     localStorage.setItem('blogData', JSON.stringify(blogData));
 
-    showSuccessMessage("Blog updated successfully ✅");
-
-    document.getElementById('blogForm').reset(); // clear form
+    showSuccessMessage("Blog submitted successfully ✅");
+    document.getElementById('blogForm').reset();
   });
 
   // Handle View Button
@@ -170,18 +168,17 @@
     const outputBox = document.getElementById('outputBox');
     const data = localStorage.getItem('blogData');
 
-    if (data) {
-      try {
-        const { name, place, date, blog } = JSON.parse(data);
-        displayOutput(name, place, date, blog);
-        console.log("Json parsing button clicked");
-        console.log(data);
-      } catch (err) {
-        outputBox.innerHTML = "<p style='color: red;'>Error reading blog data.</p>";
-        console.error("JSON parsing failed:", err);
-      }
-    } else {
+    if (!data) {
       outputBox.innerHTML = "<p>No blog data found. Please submit a blog first.</p>";
+      return;
+    }
+
+    try {
+      const { name, place, date, blog } = JSON.parse(data);
+      displayOutput(name, place, date, blog);
+    } catch (err) {
+      outputBox.innerHTML = "<p style='color: red;'>Error reading blog data.</p>";
+      console.error("JSON parsing failed:", err);
     }
   });
 </script>

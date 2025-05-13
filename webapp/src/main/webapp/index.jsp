@@ -4,138 +4,212 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Travel Blog Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
+
   <style>
+    /* Set full-page background with fixed scenic image */
     body {
       background: url('https://images.pexels.com/photos/14374972/pexels-photo-14374972.jpeg') no-repeat center center fixed;
       background-size: cover;
       margin: 0;
       padding: 20px;
-      font-family: Arial, sans-serif;
+      font-family: 'Open Sans', sans-serif;
+      color: #f8f9fa;
     }
 
+    /* Container for the form content */
     .container {
-      max-width: 500px;
+      max-width: 600px;
       margin: auto;
-      padding: 20px;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
     }
 
+    /* Heading styling */
     h1, p {
       text-align: center;
+      font-family: 'Playfair Display', serif;
     }
 
+    h1 {
+      margin-bottom: 10px;
+      font-size: 28px;
+      color: #ffffff;
+    }
+
+    p {
+      margin-bottom: 20px;
+      font-size: 16px;
+      color: #e0e0e0;
+    }
+
+    /* Label styling */
     label {
+      display: block;
+      margin-top: 15px;
       font-weight: bold;
+      font-size: 15px;
+      color: #f1f1f1;
     }
 
+    /* Input fields and textarea */
     input[type="text"],
     input[type="date"],
     textarea {
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
+      padding: 12px;
+      margin-top: 8px;
       border: none;
-      border-radius: 10px;
-      box-sizing: border-box;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      font-size: 14px;
     }
 
     textarea {
-      height: 200px;
+      height: 180px;
       resize: vertical;
+    }
+
+    /* Buttons */
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
     }
 
     .registerbtn, .viewbtn {
       width: 48%;
       padding: 12px;
       border: none;
-      border-radius: 10px;
-      background-color: #00bcd4;
-      color: white;
+      border-radius: 8px;
       font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
-      margin-top: 10px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .registerbtn {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    .registerbtn:hover {
+      background-color: #0056b3;
     }
 
     .viewbtn {
-      background-color: #4CAF50;
-    }
-
-    .signin {
-      text-align: center;
-      margin-top: 20px;
+      background-color: #28a745;
       color: white;
     }
 
-    .button-container {
-      display: flex;
-      justify-content: space-between;
+    .viewbtn:hover {
+      background-color: #1e7e34;
     }
 
+    /* Message area */
+    .signin {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 16px;
+      color: #f0f0f0;
+    }
+
+    /* Output message */
     .success-message {
       color: lightgreen;
       font-size: 18px;
       font-weight: bold;
-      margin-top: 10px;
       animation: fadeIn 0.5s;
     }
 
+    /* Fade in animation */
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
+    }
+
+    /* Table styling for output data */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: left;
+    }
+
+    th {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    td {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
     }
   </style>
 </head>
 
 <body>
 
+<!-- Blog submission form -->
 <form id="blogForm">
   <div class="container">
-    <h1>Blogging Website — CICD  fixing view button </h1>
-    <h1>fix 10</h1>
-    <h1>For testing purpose only</h1>
-    <p>A place where you can share your travel stories.</p>
-    <hr style="border-color: rgba(255,255,255,0.2);">
+    <h1>Travel Blog Portal</h1>
+    <p>Share your unforgettable travel adventures with the world.</p>
+    <hr style="border-color: rgba(255,255,255,0.3);">
 
-    <label for="Name">Enter your name</label>
-    <input type="text" placeholder="Enter Full Name" name="Name" id="Name" required>
+    <!-- Input: User's name -->
+    <label for="Name">Your Name</label>
+    <input type="text" placeholder="Enter your full name" name="Name" id="Name" required>
 
-    <label for="place">Enter place</label>
-    <input type="text" placeholder="Enter Place" name="place" id="place" required>
+    <!-- Input: Travel location -->
+    <label for="place">Travel Location</label>
+    <input type="text" placeholder="Enter destination" name="place" id="place" required>
 
-    <label for="Date">Date</label>
+    <!-- Input: Travel date -->
+    <label for="Date">Date of Travel</label>
     <input type="date" name="Date" id="Date" required>
 
-    <label for="Blog">Blog</label>
-    <textarea placeholder="Write your story..." name="Blog" id="Blog" required></textarea>
+    <!-- Input: Blog content -->
+    <label for="Blog">Your Story</label>
+    <textarea placeholder="Describe your experience..." name="Blog" id="Blog" required></textarea>
 
+    <!-- Buttons: Submit and View -->
     <div class="button-container">
       <button type="submit" class="registerbtn">Submit</button>
       <button type="button" class="viewbtn" id="viewBtn">View</button>
     </div>
   </div>
 
+  <!-- Message area for success/error -->
   <div id="messageBox" class="signin"></div>
 </form>
 
-<!-- Output box for blog content -->
+<!-- Output section for displaying blog entries -->
 <div class="container signin" id="outputBox"></div>
 
+<!-- JavaScript logic -->
 <script>
   const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun";
 
+  // View button: Fetch blog entries and display them
   document.getElementById('viewBtn').addEventListener('click', async function () {
     const outputBox = document.getElementById('outputBox');
-    outputBox.innerHTML = ""; // Clear old content
+    outputBox.innerHTML = ""; // Clear previous content
 
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
 
+      // Log response for debugging
       console.log("📥 Fetched data:", data);
 
       if (!Array.isArray(data) || data.length === 0) {
@@ -143,33 +217,32 @@
         return;
       }
 
+      // Create table for displaying blog entries
       const table = document.createElement('table');
-      table.style.width = "100%";
-      table.style.borderCollapse = "collapse";
-      table.style.color = "white";
 
       const thead = document.createElement('thead');
       thead.innerHTML = `
-        <tr style="background-color: rgba(255,255,255,0.1);">
-          <th style="border: 1px solid white; padding: 8px;">#</th>
-          <th style="border: 1px solid white; padding: 8px;">Name</th>
-          <th style="border: 1px solid white; padding: 8px;">Place</th>
-          <th style="border: 1px solid white; padding: 8px;">Date</th>
-          <th style="border: 1px solid white; padding: 8px;">Blog</th>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Place</th>
+          <th>Date</th>
+          <th>Blog</th>
         </tr>
       `;
       table.appendChild(thead);
 
       const tbody = document.createElement('tbody');
 
+      // Loop through each blog entry and create a row
       data.forEach((entry, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td style="border: 1px solid white; padding: 8px;">${index + 1}</td>
-          <td style="border: 1px solid white; padding: 8px;">${entry.Name || ''}</td>
-          <td style="border: 1px solid white; padding: 8px;">${entry.Place || ''}</td>
-          <td style="border: 1px solid white; padding: 8px;">${entry.Date || ''}</td>
-          <td style="border: 1px solid white; padding: 8px;">${entry.Blog || ''}</td>
+          <td>${index + 1}</td>
+          <td>${entry.Name || ''}</td>
+          <td>${entry.Place || ''}</td>
+          <td>${entry.Date || ''}</td>
+          <td>${entry.Blog || ''}</td>
         `;
         tbody.appendChild(row);
       });
@@ -182,10 +255,6 @@
     }
   });
 </script>
-
-
-
-
 
 </body>
 </html>

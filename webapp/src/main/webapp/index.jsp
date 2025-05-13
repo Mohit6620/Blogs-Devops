@@ -162,7 +162,7 @@
 <!-- Blog submission form -->
 <form id="blogForm">
   <div class="container">
-    <h1>Travel Blog Portal fix-02</h1>
+    <h1>Travel Blog Portal fix-03</h1>
     <p>Share your unforgettable travel adventures with the world.</p>
     <hr style="border-color: rgba(255,255,255,0.3);">
 
@@ -201,10 +201,10 @@
 <script>
   const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun?_converted=false";
 
-  // View button: Fetch blog entries and display them
+  // View button: Fetch and display data
   document.getElementById('viewBtn').addEventListener('click', async function () {
     const outputBox = document.getElementById('outputBox');
-    outputBox.innerHTML = ""; // Clear previous content
+    outputBox.innerHTML = ""; // Clear old output
 
     try {
       const res = await fetch(API_URL);
@@ -219,6 +219,7 @@
 
       // Create table
       const table = document.createElement('table');
+
       const thead = document.createElement('thead');
       thead.innerHTML = `
         <tr>
@@ -253,9 +254,9 @@
     }
   });
 
-  // Submit button: Save new blog entry to SheetDB
+  // Submit new entry
   document.getElementById('blogForm').addEventListener('submit', async function (e) {
-    e.preventDefault(); // Prevent form reload
+    e.preventDefault(); // Stop form from reloading
 
     const name = document.getElementById('Name').value.trim();
     const place = document.getElementById('place').value.trim();
@@ -281,7 +282,7 @@
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ data: [blogData] }) // required format for SheetDB
+        body: JSON.stringify({ data: [blogData] })
       });
 
       if (response.ok) {
@@ -296,6 +297,7 @@
     }
   });
 </script>
+
 
 
 </body>

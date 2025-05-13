@@ -162,7 +162,7 @@
 <!-- Blog submission form -->
 <form id="blogForm">
   <div class="container">
-    <h1>Travel Blog Portal</h1>
+    <h1>Travel Blog Portal fix-01</h1>
     <p>Share your unforgettable travel adventures with the world.</p>
     <hr style="border-color: rgba(255,255,255,0.3);">
 
@@ -197,6 +197,7 @@
 <div class="container signin" id="outputBox"></div>
 
 <!-- JavaScript logic -->
+<!-- JavaScript logic -->
 <script>
   const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun";
 
@@ -209,7 +210,6 @@
       const res = await fetch(API_URL);
       const data = await res.json();
 
-      // Log response for debugging
       console.log("📥 Fetched data:", data);
 
       if (!Array.isArray(data) || data.length === 0) {
@@ -217,9 +217,8 @@
         return;
       }
 
-      // Create table for displaying blog entries
+      // Create table
       const table = document.createElement('table');
-
       const thead = document.createElement('thead');
       thead.innerHTML = `
         <tr>
@@ -234,7 +233,6 @@
 
       const tbody = document.createElement('tbody');
 
-      // Loop through each blog entry and create a row
       data.forEach((entry, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -254,7 +252,51 @@
       outputBox.innerHTML = "<p>Failed to fetch blog data.</p>";
     }
   });
+
+  // Submit button: Save new blog entry to SheetDB
+  document.getElementById('blogForm').addEventListener('submit', async function (e) {
+    e.preventDefault(); // Prevent form reload
+
+    const name = document.getElementById('Name').value.trim();
+    const place = document.getElementById('place').value.trim();
+    const date = document.getElementById('Date').value;
+    const blog = document.getElementById('Blog').value.trim();
+    const messageBox = document.getElementById('messageBox');
+
+    if (!name || !place || !date || !blog) {
+      messageBox.innerHTML = `<p style="color: yellow;">⚠️ Please fill in all fields.</p>`;
+      return;
+    }
+
+    const blogData = {
+      Name: name,
+      Place: place,
+      Date: date,
+      Blog: blog
+    };
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data: [blogData] }) // required format for SheetDB
+      });
+
+      if (response.ok) {
+        messageBox.innerHTML = `<p class="success-message">✅ Blog submitted successfully!</p>`;
+        document.getElementById('blogForm').reset();
+      } else {
+        throw new Error("Submission failed");
+      }
+    } catch (error) {
+      console.error("❌ Submission error:", error);
+      messageBox.innerHTML = `<p style="color: red;">Failed to submit. Try again.</p>`;
+    }
+  });
 </script>
+
 
 </body>
 </html>

@@ -162,7 +162,7 @@
 <!-- Blog submission form -->
 <form id="blogForm">
   <div class="container">
-    <h1>Travel Blog Portal fix-01</h1>
+    <h1>Travel Blog Portal fix-02</h1>
     <p>Share your unforgettable travel adventures with the world.</p>
     <hr style="border-color: rgba(255,255,255,0.3);">
 
@@ -199,7 +199,7 @@
 <!-- JavaScript logic -->
 <!-- JavaScript logic -->
 <script>
-  const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun";
+  const API_URL = "https://sheetdb.io/api/v1/dligb7b6oxsun?_converted=false";
 
   // View button: Fetch blog entries and display them
   document.getElementById('viewBtn').addEventListener('click', async function () {

@@ -237,7 +237,7 @@ console.log(entry);
       data.forEach((entry, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${index + 1}</td>
+          <td>${index++}</td>
           <td>${entry.Name}</td>
           <td>${entry.Place}</td>
           <td>${entry.Date}</td>

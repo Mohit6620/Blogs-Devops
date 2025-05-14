@@ -167,7 +167,7 @@
     <hr style="border-color: rgba(255,255,255,0.3);">
 
     <!-- Input: User's name -->
-    <label for="Name">Your Name</label>
+    <label for="Name">Please enter your name </label>
     <input type="text" placeholder="Enter your full name" name="Name" id="Name" required>
 
     <!-- Input: Travel location -->

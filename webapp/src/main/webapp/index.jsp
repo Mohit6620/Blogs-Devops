@@ -233,21 +233,15 @@
       table.appendChild(thead);
 
       const tbody = document.createElement('tbody');
-console.log(entry);
-      data.forEach((entry, index) => {
+      console.log(entry);
+      data.forEach((value, index) => {
         const row = document.createElement('tr');
-        index = index + 1;
-        let name = entry.Name;
-        let place = entry.Place;
-        let date = entry.Date;  
-        let blog = entry.Blog;
-
         row.innerHTML = `
           <td>${index}</td>
-          <td>${name}</td>
-          <td>${place}</td>
-          <td>${data}</td>
-          <td>${blog}</td>
+          <td>${value.Name}</td>
+          <td>${value.Place}</td>
+          <td>${value.Date}</td>
+          <td>${value.Blog}</td>
         `;
         tbody.appendChild(row);
       });

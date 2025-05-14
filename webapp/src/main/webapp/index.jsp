@@ -162,7 +162,7 @@
 <!-- Blog submission form -->
 <form id="blogForm">
   <div class="container">
-    <h1>Travel Blog Portal fix-05</h1>
+    <h1>Travel Blog Portal fix-03</h1>
     <p>Share your unforgettable travel adventures with the world.</p>
     <hr style="border-color: rgba(255,255,255,0.3);">
 
@@ -233,15 +233,15 @@
       table.appendChild(thead);
 
       const tbody = document.createElement('tbody');
-      console.log(entry);
-      data.forEach((value, index) => {
+
+      data.forEach((entry, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${index}</td>
-          <td>${value.Name}</td>
-          <td>${value.Place}</td>
-          <td>${value.Date}</td>
-          <td>${value.Blog}</td>
+          <td>${index + 1}</td>
+          <td>${entry.Name || ''}</td>
+          <td>${entry.Place || ''}</td>
+          <td>${entry.Date || ''}</td>
+          <td>${entry.Blog || ''}</td>
         `;
         tbody.appendChild(row);
       });

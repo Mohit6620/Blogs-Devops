@@ -233,7 +233,7 @@
       table.appendChild(thead);
 
       const tbody = document.createElement('tbody');
-
+console.log(entry);   
       data.forEach((entry, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
